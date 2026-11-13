@@ -470,20 +470,9 @@ Windows runtime (the sequential runs had 3--4 threads in total; Table~\ref{tab:m
 $p=32$ are flagged as oversubscribed in \texttt{runs.csv} and in the figures.
 
 \subsection{Runtime, speed-up and efficiency}
-Tables~\ref{tab:time} and~\ref{tab:speedup} give the full grid, and Figure~\ref{fig:speedup}
+Table~\ref{tab:speedup} gives the speed-up for every $n$ and $p$ (the times are in Table~\ref{tab:time}, Appendix~\ref{app:tables}), and Figure~\ref{fig:speedup}
 plots the speed-up for $n\ge1024$.
 
-\begin{table}[H]
-\centering
-\caption{Median time per multiplication (relative IQR in \%, small type). Main study,
-placement \texttt{spread}, SSE2 build. The sequential column is the baseline $T_\text{seq}$.}
-\label{tab:time}
-\small
-\textbf{(a) blocked} (\texttt{blocked\_seq} / \texttt{blocked\_omp})\\[2pt]
-\resizebox{\linewidth}{!}{\BlockedTimeTable}\\[6pt]
-\textbf{(b) i-k-j} (\texttt{ikj\_seq} / \texttt{ikj\_omp})\\[2pt]
-\resizebox{\linewidth}{!}{\IkjTimeTable}
-\end{table}
 
 \begin{table}[H]
 \centering
@@ -499,7 +488,7 @@ the efficiency $E(p)=S(p)/p$. Columns 24 and 32 are oversubscribed.}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{../results/figures/fig_speedup.png}
+\includegraphics[width=0.84\linewidth]{../results/figures/fig_speedup.png}
 \caption{Speed-up against threads for $n\ge1024$. The shaded band is the quartile range of $S$,
 the dashed line is $S=p$ and the dotted line is the core count. Grey band: 9--16 threads
 share the 8 cores through SMT. Red band: more threads than logical processors.}
@@ -543,7 +532,7 @@ at 4096. Its absolute throughput still stays below that of the blocked kernel: a
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{../results/figures/fig_throughput.png}
+\includegraphics[width=0.84\linewidth]{../results/figures/fig_throughput.png}
 \caption{Throughput ($2n^3$ / median time) against $n$ for the sequential baseline and for
 $p=1$, 2, 4, 8, 16. The dips of individual lines (e.g.\ i-k-j, $p=4$, $n=1024$) are single
 runs disturbed by background activity (Section~\ref{sec:repeat}).}
@@ -567,7 +556,7 @@ times the sequential time (Figure~\ref{fig:granularity}).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.62\linewidth]{../results/figures/fig_granularity.png}
+\includegraphics[width=0.5\linewidth]{../results/figures/fig_granularity.png}
 \caption{Blocked kernel at small $n$: measured speed-up (solid) and the load-balance bound of
 the static schedule, $\text{tiles}/\lceil\text{tiles}/p\rceil$ (dotted).}
 \label{fig:granularity}
@@ -576,7 +565,7 @@ the static schedule, $\text{tiles}/\lceil\text{tiles}/p\rceil$ (dotted).}
 \subsection{Variability and repeatability}\label{sec:repeat}
 Some configurations of the main study were measured again, in separate processes, by the
 placement and vectorisation experiments (same kernel, $n=2048$, SSE2 build, \texttt{spread}).
-Table~\ref{tab:repeat} compares the three medians. With 1 or 2 threads they agree within 2\,\%
+Table~\ref{tab:repeat} (Appendix~\ref{app:tables}) compares the three medians. With 1 or 2 threads they agree within 2\,\%
 for i-k-j and 15\,\% for blocking. With 8 threads, the blocked kernel took 734, 444 and
 507\,ms in the three processes (max/min 1.66), and within the scaling run the five samples
 ranged from 0.44 to 1.95\,s. In contrast, the blocked kernel with $p=6$ had an IQR below 3\,\%
@@ -585,13 +574,6 @@ The speed-up tables are computed from the scaling run only. Where a value is cle
 neighbours, as for blocked at $p=8$, $n=1024$/2048 and i-k-j at $p=4$, $n=1024$, the IQR or this
 table shows it to be a disturbed run, not a property of the kernel.
 
-\begin{table}[H]
-\centering
-\caption{The same configuration ($n=2048$, SSE2, \texttt{spread}) measured by three
-experiments in separate processes: median time (relative IQR in \%).}
-\label{tab:repeat}
-\small\RepeatTable
-\end{table}
 
 \concept{Follow-up: all $p=8$ configurations repeated with 15 repetitions}
 The follow-up ran on 13 November 2026 from 08:22 to 08:29 (UTC), on AC power, with the same
@@ -637,8 +619,8 @@ same footprint (407.6\,MB at $n=4096$ for $p=1$ and 408.3\,MB for $p=32$).
 \small\resizebox{\linewidth}{!}{\MemoryTable}
 \end{table}
 
-\subsection{Thread placement}
-Figure~\ref{fig:affinity} and Table~\ref{tab:affinity} compare the placements at $n=2048$.
+\subsection{Thread placement}\label{sec:place}
+Figure~\ref{fig:affinity} and Table~\ref{tab:affinity} (Appendix~\ref{app:tables}) compare the placements at $n=2048$.
 With \texttt{compact}, $p=2$ puts both threads on the two SMT siblings of one core. The blocked
 kernel then takes 1.77\,s, against 1.02\,s with one thread per core (\texttt{spread}). This
 is even slower than the sequential kernel (1.61\,s): two threads that share a core do less
@@ -653,18 +635,11 @@ after the measurements, they ran on only 2--5 distinct cores.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{../results/figures/fig_affinity.png}
+\includegraphics[width=0.84\linewidth]{../results/figures/fig_affinity.png}
 \caption{Speed-up over the sequential kernel at $n=2048$ for the three placements.}
 \label{fig:affinity}
 \end{figure}
 
-\begin{table}[H]
-\centering
-\caption{Median time at $n=2048$ by placement (relative IQR in \%). Last column: distinct
-physical cores used by the threads of the unpinned run, sampled after the measurements.}
-\label{tab:affinity}
-\small\AffinityTable
-\end{table}
 
 \subsection{Clock frequency with more busy cores (supplementary check)}
 To explain why even the compute-bound blocked kernel scales sublinearly, a separate short run
@@ -696,7 +671,7 @@ $p$ & effective clock (GHz) & GFLOP/s & FLOP per cycle and core & $S$ predicted 
 \end{tabular}
 \end{table}
 
-\subsection{Optional extension: vectorisation}
+\subsection{Optional extension: vectorisation}\label{sec:vecres}
 \concept{Evidence of vectorisation}
 GCC's \texttt{-fopt-info-vec} report (\texttt{results/vectorization\_report.txt}) lists the
 inner loop of all four kernels as vectorised, with 16-byte vectors in the default build and
@@ -725,28 +700,20 @@ $p$; and speed-up of the AVX2 build over the scalar sequential kernel.}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{../results/figures/fig_vectorization.png}
+\includegraphics[width=0.84\linewidth]{../results/figures/fig_vectorization.png}
 \caption{Speed-up over the scalar sequential kernel at $n=2048$, by build and thread count
 (logarithmic scale).}
 \label{fig:vec}
 \end{figure}
 
 \concept{The \texttt{omp simd} directive}
-Table~\ref{tab:simd} shows that without \texttt{omp simd} the one-thread parallel kernel
+Table~\ref{tab:simd} (Appendix~\ref{app:tables}) shows that without \texttt{omp simd} the one-thread parallel kernel
 takes 2.58\,s at $n=2048$. This is the time of the scalar build (2.61\,s) and $1.62\times$
 slower than with the directive, as the vectorisation report predicts. With 16 threads the
 directive is again worth $1.5$--$1.6\times$. With 8 threads the variant without it (593\,ms)
 falls inside the 444--734\,ms range of the three measurements with it, an instance of the
 disturbed $p=8$ runs of Section~\ref{sec:repeat}.
 
-\begin{table}[H]
-\centering
-\caption{Blocked parallel kernel with and without \texttt{omp simd} (median time). ``With''
-is taken from the scaling run and, at $n=2048$, also from the vectorisation run. Ratio
-$=$ without / scaling run.}
-\label{tab:simd}
-\small\SimdTable
-\end{table}
 
 % =====================================================================
 \FloatBarrier
@@ -963,5 +930,48 @@ from executing the code, and all references were checked to exist.
 \bibitem{amd} Advanced Micro Devices, ``Software Optimization Guide for AMD Family 19h Processors,'' Pub. no. 56665, 2020.
 \bibitem{psutil} G.~Rodola, ``psutil documentation,'' 2026. [Online]. Available: \url{https://psutil.readthedocs.io/}
 \end{thebibliography}
+
+% =====================================================================
+\clearpage
+\appendix
+\section{Additional tables}\label{app:tables}
+These tables give the detail behind Sections~\ref{sec:repeat}, \ref{sec:place} and \ref{sec:vecres}; all values come from \texttt{results/summary/summary.csv}.
+
+\begin{table}[H]
+\centering
+\caption{Median time per multiplication (relative IQR in \%, small type). Main study,
+placement \texttt{spread}, SSE2 build. The sequential column is the baseline $T_\text{seq}$.}
+\label{tab:time}
+\small
+\textbf{(a) blocked} (\texttt{blocked\_seq} / \texttt{blocked\_omp})\\[2pt]
+\resizebox{\linewidth}{!}{\BlockedTimeTable}\\[6pt]
+\textbf{(b) i-k-j} (\texttt{ikj\_seq} / \texttt{ikj\_omp})\\[2pt]
+\resizebox{\linewidth}{!}{\IkjTimeTable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{The same configuration ($n=2048$, SSE2, \texttt{spread}) measured by three
+experiments in separate processes: median time (relative IQR in \%).}
+\label{tab:repeat}
+\small\RepeatTable
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Median time at $n=2048$ by placement (relative IQR in \%). Last column: distinct
+physical cores used by the threads of the unpinned run, sampled after the measurements.}
+\label{tab:affinity}
+\small\AffinityTable
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Blocked parallel kernel with and without \texttt{omp simd} (median time). ``With''
+is taken from the scaling run and, at $n=2048$, also from the vectorisation run. Ratio
+$=$ without / scaling run.}
+\label{tab:simd}
+\small\SimdTable
+\end{table}
 
 \end{document}
