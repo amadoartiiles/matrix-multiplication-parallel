@@ -143,7 +143,9 @@ at 6--8 threads and gains nothing from SMT; the i-k-j kernel, slower in absolute
 speed-up far below the core count: the effective clock drops from about 3.5\,GHz with one busy
 core to 2.3\,GHz with eight, and with all cores pinned under a static schedule any background
 activity stalls the barrier (at $p=8$ the same configuration varied by up to 66\,\% between
-processes). Small matrices are limited by the number of row tiles, oversubscription slows
+processes). A follow-up that repeated every $p=8$ case with 15 repetitions on another day
+reduced the within-run spread but gave up to 50\,\% shorter times (blocked $S(8)$ up to 4.9),
+so the variation between sessions exceeds the reported IQR. Small matrices are limited by the number of row tiles, oversubscription slows
 i-k-j by up to $2\times$, and peak memory does not grow with $p$. In the optional extension,
 AVX2 adds $1.4$--$2.6\times$ at a fixed thread count; blocked + AVX2 + 8 threads is $9.3\times$
 faster than the scalar sequential kernel. The conclusions are limited to this power-limited
@@ -398,6 +400,11 @@ budget is stopped and recorded, and larger sizes of the same configuration are n
         16, built as scalar (\texttt{-fno-tree-vectorize}, no \texttt{omp simd}), SSE2
         (default) and AVX2 (\texttt{-mavx2}); the builds alternate for every configuration.
   \item \textbf{Diagnostic:} \texttt{blocked\_omp\_nosimd} at $n=1024$, 2048 with $p=1$, 8, 16.
+  \item \textbf{Follow-up (added after the campaign):} because the $p=8$ results of the main
+        study were the most variable, both parallel kernels were measured again with $p=8$ at
+        every size, in new processes and with 15 instead of 5 repetitions
+        (experiment \texttt{repeat\_p8}). It is reported next to the main study, not instead
+        of it.
 \end{itemize}
 The size sequence doubles from 256 so that $B$ crosses the 16\,MB L3 cache between $n=1024$
 (8\,MB) and 2048 (32\,MB). The i-k-j pair stops at $n=4096$ by design, to keep the campaign near
@@ -446,7 +453,7 @@ repetitions. The relative IQR, in percent, is printed in small type next to each
         every size. The largest error is $9.9\times10^{-13}$ ($n=6144$) and the largest ratio of
         error to bound is $7.9\times10^{-3}$ (\texttt{results/validation.csv}). For every $n$,
         \texttt{blocked\_seq} and \texttt{ikj\_seq} give the same 64-bit hash.
-  \item \textbf{Every run:} each of the 190 runs printed the hash of the validated result of
+  \item \textbf{Every run:} each of the 190 runs, and of the 13 follow-up runs, printed the hash of the validated result of
         its size (\texttt{results/hash\_check.csv}). This holds for every thread count from 1 to 32, for
         the three placements and for the scalar, SSE2 and AVX2 builds. All repetitions of a run
         have the same checksum, and the team size seen inside the kernel always equals $p$.
@@ -586,6 +593,37 @@ experiments in separate processes: median time (relative IQR in \%).}
 \small\RepeatTable
 \end{table}
 
+\concept{Follow-up: all $p=8$ configurations repeated with 15 repetitions}
+The follow-up ran on 13 November 2026 from 08:22 to 08:29 (UTC), on AC power, with the same
+binaries, inputs and protocol, apart from the number of repetitions. Table~\ref{tab:repeat8}
+compares it with the main study. Its speed-ups use the sequential medians of the main study.
+\begin{itemize}[leftmargin=1.4em]
+  \item \textbf{Spread within a run.} It fell where the main study had been disturbed: for the
+        blocked kernel the relative IQR went from 128 to 8\,\% at $n=1024$ and from 45 to
+        20\,\% at $n=2048$. With these values, $p=8$ is no longer slower than $p=4$ at these
+        sizes, and at $n=1024$ it is close to $p=6$ (3.92 against 4.09).
+  \item \textbf{Medians.} The repeated medians were up to 50\,\% shorter, including cases where
+        the main run had a small IQR: blocked at $n=3072$ and 4096 was 27 and 23\,\% faster
+        (IQR 2--6\,\% in the main run). The speed-up rose to 4.87 and 4.38 (efficiency 0.61 and
+        0.55, up to 52\,GFLOP/s). At $n=6144$ the two runs agree within 0.4\,\%, and i-k-j at
+        $n=4096$ was 7\,\% slower in the repeat.
+\end{itemize}
+The repeat therefore confirms that the low $p=8$ values at $n=1024$ and 2048 came from
+disturbed runs. It also shows that the state of the machine changes between sessions, through
+temperature, power management and background load. The difference between two sessions
+($-50$ to $+7\,\%$) is larger than the interquartile range within either of them, so the
+$p=8$ speed-ups are reliable only to within about 25\,\%. The other thread counts were
+not repeated and may carry a similar session effect.
+
+\begin{table}[H]
+\centering
+\caption{$p=8$ in the main study (12 Nov., 5 repetitions) and in the follow-up (13 Nov.,
+15 repetitions), both against the sequential medians of the main study. Last column: the main
+study's speed-up with $p=6$, for comparison (\texttt{results/summary/repeat\_p8.csv}).}
+\label{tab:repeat8}
+\small\resizebox{\linewidth}{!}{\RepeatEightTable}
+\end{table}
+
 \subsection{Memory}
 Table~\ref{tab:memory} shows that the peak working set equals the storage of $A$, $B$ and $C$
 ($24n^2$ bytes) plus about 5\,MB of program and runtime. It does not depend on $p$: from 1 to
@@ -715,16 +753,16 @@ $=$ without / scaling run.}
 \section{Discussion}
 
 \concept{H1 -- the blocked kernel scales almost linearly to 8 cores: rejected}
-Its efficiency is 0.70--0.83 at 4 threads but only 0.42--0.49 at 8 for $n\ge3072$, against the
-expected $\ge0.8$. Arithmetic intensity is not the limit. With tile 64 \cite{lam}, the blocked kernel moves
+Its efficiency is 0.70--0.83 at 4 threads but only 0.42--0.49 at 8 for $n\ge3072$ in the main
+study, and 0.49--0.61 in the follow-up, against the expected $\ge0.8$. Arithmetic intensity is not the limit. With tile 64 \cite{lam}, the blocked kernel moves
 about $24n^3/64$ bytes between cache levels for $2n^3$ operations, so its 40\,GFLOP/s need only
 about 8\,GB/s, well within the 51.2\,GB/s of the two DDR4-3200 channels. Two other limits
 appear instead.
 \begin{itemize}[leftmargin=1.4em]
   \item \textbf{Power-limited clock.} The 7730U is a 15\,W laptop processor. Table~\ref{tab:freq}
         shows the effective clock falling by a factor 1.5 from one busy core to eight, which
-        alone caps $S(8)$ at about 5.3. The rest of the gap, 5.3 against the 3.4 measured in the
-        campaign, matches the fall in work per cycle (2.9 to 1.8 FLOP per cycle and core). That
+        alone caps $S(8)$ at about 5.3. The rest of the gap, 5.3 against the 3.4--4.9 measured,
+        matches the fall in work per cycle (2.9 to 1.8 FLOP per cycle and core). That
         fall is consistent with eight cores competing for the shared L3 and memory, which this
         study did not measure directly. Assignment~2's single-core results were therefore
         obtained at a clock that eight cores cannot sustain.
@@ -735,7 +773,9 @@ appear instead.
         loop waits for that thread, so the whole team waits. This explains the spread at
         $p=8$ (0.44--1.95\,s for the same configuration) and why $p=6$, which leaves two cores
         free, was faster than $p=8$ at $n=1024$ and 2048 and stable (IQR $<3\,\%$) at every
-        $n\ge2048$. The i-k-j kernel
+        $n\ge2048$. The follow-up, in a quieter session, brought $p=8$ back to the level of
+        $p=6$ at $n=1024$, which supports interference rather than a property of the kernel.
+        The i-k-j kernel
         is less affected. A plausible reason is that it is limited by memory, so a short delay
         on one core overlaps with time the others spend waiting for data.
 \end{itemize}
@@ -826,9 +866,11 @@ reports, not only timings, are needed to make the comparison fair.
         may scale differently; it was deliberately left out so that the parallel and sequential
         versions run exactly the same loop nest.
   \item Five repetitions per configuration were enough when the machine was quiet, but not at
-        $p=8$, where the medians of different processes differ by up to 66\,\%. More
-        repetitions, or the minimum as a second statistic, would make those cells more
-        reliable. The raw samples allow this re-analysis.
+        $p=8$. Fifteen repetitions in the follow-up reduced the spread within a run, but not
+        the difference between sessions (up to 50\,\%). Only the $p=8$ cases were repeated, so
+        a session effect on the other thread counts cannot be excluded. Repeating the whole
+        campaign in several sessions, alternating the configurations, would be needed to
+        measure it.
   \item Only \texttt{schedule(static)} was tested. A \texttt{dynamic} or \texttt{guided}
         schedule over smaller chunks might absorb the delays of interrupted threads at
         $p=8$. Testing it is the obvious next step.
@@ -845,7 +887,7 @@ reports, not only timings, are needed to make the comparison fair.
 \begin{itemize}[leftmargin=1.4em]
   \item \textbf{Correctness.} Sharing the outer loop of the Assignment~2 kernels with
         \texttt{omp for schedule(static)} is safe without locks. It reproduced the sequential
-        result bit for bit in all 190 runs, at 1 to 32 threads, in every placement and in every
+        result bit for bit in all 203 runs (190 + 13 follow-up), at 1 to 32 threads, in every placement and in every
         build.
   \item \textbf{One-thread overhead.} Negligible: within 1.2\,\% of the sequential kernel for
         $n\ge2048$. This holds only once the parallel loop is vectorised like the sequential
@@ -853,7 +895,10 @@ reports, not only timings, are needed to make the comparison fair.
         one thread.
   \item \textbf{Scaling.} The best median speed-ups were 3.4--4.2 for the blocked kernel
         (efficiency 0.42--0.70, at 6--8 threads) and 4.5--5.6 for i-k-j ($n\ge2048$). The peak
-        was 44.7\,GFLOP/s, against 10.8\,GFLOP/s sequentially. The limits are the 15\,W power
+        was 44.7\,GFLOP/s, against 10.8\,GFLOP/s sequentially. The $p=8$ follow-up gave up to
+        4.9 (52\,GFLOP/s), and the differences between sessions were as large as 50\,\%, so
+        these values describe a range of about $4$--$5\times$ rather than a single
+        number. The limits are the 15\,W power
         budget, which lowers the clock as cores are added, shared cache and memory, and the
         sensitivity of a pinned static schedule to any interruption when all cores are
         busy.

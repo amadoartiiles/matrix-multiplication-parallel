@@ -496,6 +496,44 @@ def main():
         tex.append("\\addlinespace[2pt]")
     tex.append("\\bottomrule\\end{tabular}}")
 
+    # =====================================================================
+    # Follow-up: p = 8 measured again (repeat_p8, 15 repetitions) against the main study
+    # =====================================================================
+    if any(s["experiment"] == "repeat_p8" for s in S.values()):
+        rp_rows = []
+        tex.append("\\newcommand{\\RepeatEightTable}{")
+        tex.append("\\begin{tabular}{l r r r r r r r}\\toprule & & \\multicolumn{2}{c}{Median $T_8$ "
+                   "(rel.\\ IQR \\%)} & \\multicolumn{2}{c}{$S(8)$} & $E(8)$ & $S(6)$ \\\\"
+                   "\\cmidrule(lr){3-4}\\cmidrule(lr){5-6}\\cmidrule(lr){7-7}\\cmidrule(lr){8-8}"
+                   "Kernel & $n$ & main (5 reps) & repeat (15 reps) & main & repeat & repeat & main "
+                   "\\\\\\midrule")
+        for fam in FAMILIES:
+            seq, par = FAMILIES[fam]
+            for n in sizes_fam[fam]:
+                base, orig = get("scaling", seq, n), get("scaling", par, n, 8)
+                rep, six = get("repeat_p8", par, n, 8), get("scaling", par, n, 6)
+                if not (base and orig and rep):
+                    continue
+                s_o, s_r = base["median_s"] / orig["median_s"], base["median_s"] / rep["median_s"]
+                rp_rows.append({"family": fam, "method": par, "n": n,
+                                "main_median_s": orig["median_s"], "main_rel_iqr_pct": orig["rel_iqr_pct"],
+                                "repeat_median_s": rep["median_s"], "repeat_rel_iqr_pct": rep["rel_iqr_pct"],
+                                "repeat_reps": rep["reps"], "speedup_main": s_o, "speedup_repeat": s_r,
+                                "efficiency_repeat": s_r / 8,
+                                "speedup_p6_main": base["median_s"] / six["median_s"] if six else ""})
+                tex.append(f"{par.replace('_', chr(92) + '_')} & {n} & "
+                           f"{fmt_t(orig['median_s'])} {{\\scriptsize({orig['rel_iqr_pct']:.0f})}} & "
+                           f"{fmt_t(rep['median_s'])} {{\\scriptsize({rep['rel_iqr_pct']:.0f})}} & "
+                           f"{s_o:.2f} & {s_r:.2f} & {s_r / 8:.2f} & "
+                           + (f"{base['median_s'] / six['median_s']:.2f}" if six else "--") + " \\\\")
+            tex.append("\\addlinespace[2pt]")
+        tex.append("\\bottomrule\\end{tabular}}")
+        with open(os.path.join(sum_dir, "repeat_p8.csv"), "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(rp_rows[0].keys()))
+            w.writeheader()
+            for r in rp_rows:
+                w.writerow({k: (f"{v:.6g}" if isinstance(v, float) else v) for k, v in r.items()})
+
     with open(os.path.join(sum_dir, "tables.tex"), "w", encoding="utf-8") as f:
         f.write("\n".join(tex) + "\n")
     print(f"wrote {sum_dir} and {fig_dir}")

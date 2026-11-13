@@ -70,7 +70,8 @@ def build_jobs(cfg, experiments, data, outputs):
                                 "exe": os.path.join("build",
                                                     cfg["c"]["builds"][build]["exe"] + EXE),
                                 "a": os.path.join(data, f"A_{n}.bin"),
-                                "b": os.path.join(data, f"B_{n}.bin"), "dump": dump})
+                                "b": os.path.join(data, f"B_{n}.bin"), "dump": dump,
+                                "reps": exp.get("measured_repetitions")})
     return jobs
 
 
@@ -268,7 +269,7 @@ def main():
             print(f"[skip] {label}")
             continue
         print(f"[run ] {label} ...", flush=True)
-        run, rows = run_config(job, cfg, warmup, reps)
+        run, rows = run_config(job, cfg, warmup, args.reps or job["reps"] or reps)
         battery = psutil.sensors_battery()
         if battery and not battery.power_plugged:
             run["note"] = (run["note"] + " on battery power").strip()

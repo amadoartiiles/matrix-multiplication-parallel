@@ -122,3 +122,21 @@ ikj\_omp & 8 & 802.0 ms {\scriptsize(2)} & 766.9 ms {\scriptsize(4)} & 745.6 ms 
 ikj\_omp & 16 & 601.1 ms {\scriptsize(35)} & 717.6 ms {\scriptsize(16)} & 731.5 ms {\scriptsize(12)} & 1.22 \\
 \addlinespace[2pt]
 \bottomrule\end{tabular}}
+\newcommand{\RepeatEightTable}{
+\begin{tabular}{l r r r r r r r}\toprule & & \multicolumn{2}{c}{Median $T_8$ (rel.\ IQR \%)} & \multicolumn{2}{c}{$S(8)$} & $E(8)$ & $S(6)$ \\\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-7}\cmidrule(lr){8-8}Kernel & $n$ & main (5 reps) & repeat (15 reps) & main & repeat & repeat & main \\\midrule
+blocked\_omp & 256 & 1.8 ms {\scriptsize(18)} & 1.8 ms {\scriptsize(35)} & 1.89 & 1.85 & 0.23 & 2.37 \\
+blocked\_omp & 512 & 7.7 ms {\scriptsize(123)} & 9.2 ms {\scriptsize(10)} & 3.35 & 2.82 & 0.35 & 2.22 \\
+blocked\_omp & 1024 & 92.4 ms {\scriptsize(128)} & 50.3 ms {\scriptsize(8)} & 2.14 & 3.92 & 0.49 & 4.09 \\
+blocked\_omp & 2048 & 734.5 ms {\scriptsize(45)} & 487.9 ms {\scriptsize(20)} & 2.19 & 3.29 & 0.41 & 4.18 \\
+blocked\_omp & 3072 & 1.52 s {\scriptsize(2)} & 1.11 s {\scriptsize(3)} & 3.55 & 4.87 & 0.61 & 3.18 \\
+blocked\_omp & 4096 & 3.81 s {\scriptsize(6)} & 2.94 s {\scriptsize(8)} & 3.37 & 4.38 & 0.55 & 3.11 \\
+blocked\_omp & 6144 & 11.34 s {\scriptsize(5)} & 11.38 s {\scriptsize(9)} & 3.91 & 3.90 & 0.49 & 3.57 \\
+\addlinespace[2pt]
+ikj\_omp & 256 & 1.4 ms {\scriptsize(3)} & 2.4 ms {\scriptsize(61)} & 2.24 & 1.33 & 0.17 & 0.42 \\
+ikj\_omp & 512 & 8.9 ms {\scriptsize(2)} & 8.1 ms {\scriptsize(10)} & 2.64 & 2.89 & 0.36 & 0.28 \\
+ikj\_omp & 1024 & 86.3 ms {\scriptsize(11)} & 43.3 ms {\scriptsize(11)} & 2.93 & 5.83 & 0.73 & 2.92 \\
+ikj\_omp & 2048 & 802.0 ms {\scriptsize(2)} & 712.1 ms {\scriptsize(3)} & 4.16 & 4.69 & 0.59 & 3.59 \\
+ikj\_omp & 3072 & 2.81 s {\scriptsize(8)} & 2.35 s {\scriptsize(3)} & 4.05 & 4.83 & 0.60 & 3.65 \\
+ikj\_omp & 4096 & 5.60 s {\scriptsize(1)} & 6.00 s {\scriptsize(4)} & 4.93 & 4.60 & 0.58 & 4.37 \\
+\addlinespace[2pt]
+\bottomrule\end{tabular}}

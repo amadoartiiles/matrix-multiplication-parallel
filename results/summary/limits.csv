@@ -23,6 +23,8 @@ affinity,ikj_omp,sse2,8,spread,2048,2048,none
 affinity,ikj_omp,sse2,16,compact,2048,2048,none
 affinity,ikj_omp,sse2,16,none,2048,2048,none
 affinity,ikj_omp,sse2,16,spread,2048,2048,none
+repeat_p8,blocked_omp,sse2,8,spread,6144,6144,none
+repeat_p8,ikj_omp,sse2,8,spread,4096,4096,none
 scaling,blocked_omp,sse2,1,spread,6144,6144,none
 scaling,blocked_omp,sse2,2,spread,6144,6144,none
 scaling,blocked_omp,sse2,4,spread,6144,6144,none

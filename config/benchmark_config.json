@@ -68,6 +68,15 @@
       "threads": [1, 8, 16],
       "affinity": ["spread"],
       "builds": ["sse2"]
+    },
+    "repeat_p8": {
+      "description": "Follow-up after the main campaign: the p = 8 configurations of the main study, the most variable ones, measured again in new processes with 15 repetitions",
+      "methods": {"blocked_omp": [256, 512, 1024, 2048, 3072, 4096, 6144],
+                  "ikj_omp": [256, 512, 1024, 2048, 3072, 4096]},
+      "threads": [8],
+      "affinity": ["spread"],
+      "builds": ["sse2"],
+      "measured_repetitions": 15
     }
   }
 }

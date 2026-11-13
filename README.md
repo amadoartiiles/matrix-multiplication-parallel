@@ -90,6 +90,11 @@ build/parallel.exe bench --method blocked_omp --n 2048 --a $DATA/A_2048.bin --b 
     --threads 8 --affinity spread
 ```
 
+Follow-up run (13 Nov. 2026, after the campaign): the p = 8 configurations of the main study
+measured again with 15 repetitions (experiment `repeat_p8`, not part of the default set):
+`python scripts/run_benchmarks.py --data $DATA --outputs $OUT --experiments repeat_p8`,
+then steps 4 and 6. Results: `results/summary/repeat_p8.csv`.
+
 Supplementary clock check (after the campaign; the sampling perturbs the run, so its times
 are not used elsewhere):
 `powershell -ExecutionPolicy Bypass -File scripts/frequency_check.ps1 -Data $DATA`.
