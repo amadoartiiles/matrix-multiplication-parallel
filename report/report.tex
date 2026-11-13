@@ -131,25 +131,16 @@ and when does parallel execution help?}
 \vspace{6pt}
 \begin{infobox}
 {\color{accent}\bfseries Abstract}\par\vspace{3pt}
-The cache-blocked and the loop-reordered (i-k-j) dense kernels of Assignment~2 were
-parallelised with OpenMP (\texttt{omp for schedule(static)} over row tiles or rows). They were
-measured against their unchanged sequential versions on an 8-core / 16-thread Ryzen~7 7730U
-laptop for $n=256$ to 6144 and $p=1$ to 32 threads: 190 configurations, each in its own process
-with 1 warm-up and 5 measured runs. Every run reproduced the validated sequential result bit
-for bit, and with one thread the parallel code costs nothing measurable ($\le1.2\,\%$,
-$n\ge2048$). The blocked kernel reaches a median speed-up of 3.4--4.2 (efficiency 0.42--0.70)
-at 6--8 threads and gains nothing from SMT; the i-k-j kernel, slower in absolute terms, reaches
-4.5--5.6 because its memory-bound sequential version leaves bandwidth unused. Two effects keep
-speed-up far below the core count: the effective clock drops from about 3.5\,GHz with one busy
-core to 2.3\,GHz with eight, and with all cores pinned under a static schedule any background
-activity stalls the barrier (at $p=8$ the same configuration varied by up to 66\,\% between
-processes). A follow-up that repeated every $p=8$ case with 15 repetitions on another day
-reduced the within-run spread but gave up to 50\,\% shorter times (blocked $S(8)$ up to 4.9),
-so the variation between sessions exceeds the reported IQR. Small matrices are limited by the number of row tiles, oversubscription slows
-i-k-j by up to $2\times$, and peak memory does not grow with $p$. In the optional extension,
-AVX2 adds $1.4$--$2.6\times$ at a fixed thread count; blocked + AVX2 + 8 threads is $9.3\times$
-faster than the scalar sequential kernel. The conclusions are limited to this power-limited
-laptop.
+The blocked and i-k-j dense kernels of Assignment~2 were parallelised with OpenMP and compared
+with their unchanged sequential versions on an 8-core / 16-thread laptop, for $n=256$--6144
+and 1--32 threads (190 configurations, 5 measured runs each). All runs reproduced the
+sequential result bit for bit, and the one-thread overhead was not measurable. The best
+median speed-ups were 3.4--5.6 (efficiency 0.35--0.70), far below the core count. They were limited by the
+clock dropping from 3.5 to 2.3\,GHz as cores were added and by background interference with
+all cores busy, which made results vary by up to 50\,\% between sessions. SMT helped only the
+memory-bound i-k-j kernel, oversubscription never helped, and memory did not grow with the
+thread count. Optionally, AVX2 added $1.4$--$2.6\times$, reaching $9.3\times$ the scalar
+sequential kernel with 8 threads. The conclusions apply to this power-limited laptop.
 
 \vspace{4pt}
 {\small\textbf{Keywords:} matrix multiplication, OpenMP, shared-memory parallelism, speed-up,
