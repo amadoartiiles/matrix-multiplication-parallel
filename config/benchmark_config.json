@@ -1,0 +1,73 @@
+{
+  "measured_repetitions": 5,
+  "warmup_runs": 1,
+  "min_batch_time_s": 0.1,
+  "time_limit_per_multiplication_s": 300,
+  "memory_budget_bytes": 4000000000,
+  "memory_sampling_interval_s": 0.02,
+  "pause_between_runs_s": 2,
+  "block_size": 64,
+  "c": {
+    "compiler": "gcc",
+    "flags": ["-O2", "-std=c11", "-Wall", "-Wextra", "-fopenmp"],
+    "builds": {
+      "sse2": {"exe": "parallel", "extra_flags": [],
+               "description": "main build: -O2 default x86-64 target, SSE2 16-byte vectors"},
+      "novec": {"exe": "parallel_novec", "extra_flags": ["-fno-tree-vectorize", "-DMM_NO_SIMD"],
+                "description": "scalar build: no loop vectorisation and no omp simd directive"},
+      "avx2": {"exe": "parallel_avx2", "extra_flags": ["-mavx2"],
+               "description": "AVX2 32-byte vectors, no FMA (-mfma not given; ISO C11 mode also disables contraction)"}
+    }
+  },
+  "openmp_environment": {
+    "OMP_DYNAMIC": "FALSE",
+    "OMP_NUM_THREADS": "set per configuration to the thread count p",
+    "OMP_WAIT_POLICY": "not set (libgomp default)",
+    "OMP_PROC_BIND / OMP_PLACES": "not set: libgomp on Windows does not implement places; threads are pinned by the program (--affinity)"
+  },
+  "input": {
+    "reused_from": "Assignment 1 generator (scripts/generate_inputs.py, commit 441ae4d), also used in Assignment 2",
+    "generator": "numpy.random.default_rng (PCG64), seeded with [seed, n]",
+    "seed": 20261012,
+    "distribution": "uniform",
+    "low": -1.0,
+    "high": 1.0,
+    "dtype": "float64 (IEEE 754 binary64), little-endian, row-major"
+  },
+  "experiments": {
+    "scaling": {
+      "description": "Main study: sequential baselines and their OpenMP versions for every thread count",
+      "methods": {
+        "blocked_seq": [256, 512, 1024, 2048, 3072, 4096, 6144],
+        "blocked_omp": [256, 512, 1024, 2048, 3072, 4096, 6144],
+        "ikj_seq": [256, 512, 1024, 2048, 3072, 4096],
+        "ikj_omp": [256, 512, 1024, 2048, 3072, 4096]
+      },
+      "threads": [1, 2, 4, 6, 8, 12, 16, 24, 32],
+      "affinity": ["spread"],
+      "builds": ["sse2"],
+      "dump_methods": ["blocked_seq", "ikj_seq"]
+    },
+    "affinity": {
+      "description": "Supplementary: thread placement (no pinning, compact, spread) at a fixed size",
+      "methods": {"blocked_omp": [2048], "ikj_omp": [2048]},
+      "threads": [2, 4, 8, 16],
+      "affinity": ["none", "compact", "spread"],
+      "builds": ["sse2"]
+    },
+    "vectorization": {
+      "description": "Optional extension: scalar, SSE2 and AVX2 builds of the same source, at fixed thread counts",
+      "methods": {"blocked_seq": [2048], "blocked_omp": [2048], "ikj_seq": [2048], "ikj_omp": [2048]},
+      "threads": [1, 4, 8, 16],
+      "affinity": ["spread"],
+      "builds": ["novec", "sse2", "avx2"]
+    },
+    "simd_directive": {
+      "description": "Diagnostic: the parallel blocked kernel without the omp simd directive",
+      "methods": {"blocked_omp_nosimd": [1024, 2048]},
+      "threads": [1, 8, 16],
+      "affinity": ["spread"],
+      "builds": ["sse2"]
+    }
+  }
+}

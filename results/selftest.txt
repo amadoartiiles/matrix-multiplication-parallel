@@ -1,0 +1,213 @@
+== build sse2 (build\parallel.exe) ==
+blocked_seq p=1: known 3x3 product                   PASS
+blocked_seq p=1: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_seq p=1: non-commuting 2x2                   PASS
+blocked_omp p=1: known 3x3 product                   PASS
+blocked_omp p=1: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=1: non-commuting 2x2                   PASS
+blocked_omp p=2: known 3x3 product                   PASS
+blocked_omp p=2: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=2: non-commuting 2x2                   PASS
+blocked_omp p=3: known 3x3 product                   PASS
+blocked_omp p=3: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=3: non-commuting 2x2                   PASS
+blocked_omp p=7: known 3x3 product                   PASS
+blocked_omp p=7: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=7: non-commuting 2x2                   PASS
+blocked_omp p=16: known 3x3 product                  PASS
+blocked_omp p=16: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp p=16: non-commuting 2x2                  PASS
+blocked_omp p=33: known 3x3 product                  PASS
+blocked_omp p=33: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp p=33: non-commuting 2x2                  PASS
+ikj_seq p=1: known 3x3 product                       PASS
+ikj_seq p=1: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_seq p=1: non-commuting 2x2                       PASS
+ikj_omp p=1: known 3x3 product                       PASS
+ikj_omp p=1: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=1: non-commuting 2x2                       PASS
+ikj_omp p=2: known 3x3 product                       PASS
+ikj_omp p=2: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=2: non-commuting 2x2                       PASS
+ikj_omp p=3: known 3x3 product                       PASS
+ikj_omp p=3: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=3: non-commuting 2x2                       PASS
+ikj_omp p=7: known 3x3 product                       PASS
+ikj_omp p=7: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=7: non-commuting 2x2                       PASS
+ikj_omp p=16: known 3x3 product                      PASS
+ikj_omp p=16: A * I == A, I * A == A, A * 0 == 0     PASS
+ikj_omp p=16: non-commuting 2x2                      PASS
+ikj_omp p=33: known 3x3 product                      PASS
+ikj_omp p=33: A * I == A, I * A == A, A * 0 == 0     PASS
+ikj_omp p=33: non-commuting 2x2                      PASS
+blocked_omp_nosimd p=1: known 3x3 product            PASS
+blocked_omp_nosimd p=1: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=1: non-commuting 2x2            PASS
+blocked_omp_nosimd p=2: known 3x3 product            PASS
+blocked_omp_nosimd p=2: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=2: non-commuting 2x2            PASS
+blocked_omp_nosimd p=3: known 3x3 product            PASS
+blocked_omp_nosimd p=3: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=3: non-commuting 2x2            PASS
+blocked_omp_nosimd p=7: known 3x3 product            PASS
+blocked_omp_nosimd p=7: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=7: non-commuting 2x2            PASS
+blocked_omp_nosimd p=16: known 3x3 product           PASS
+blocked_omp_nosimd p=16: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=16: non-commuting 2x2           PASS
+blocked_omp_nosimd p=33: known 3x3 product           PASS
+blocked_omp_nosimd p=33: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=33: non-commuting 2x2           PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=1        PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=7        PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=33       PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=100      PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=130      PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=257      PASS
+selftest PASSED
+
+== build novec (build\parallel_novec.exe) ==
+blocked_seq p=1: known 3x3 product                   PASS
+blocked_seq p=1: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_seq p=1: non-commuting 2x2                   PASS
+blocked_omp p=1: known 3x3 product                   PASS
+blocked_omp p=1: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=1: non-commuting 2x2                   PASS
+blocked_omp p=2: known 3x3 product                   PASS
+blocked_omp p=2: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=2: non-commuting 2x2                   PASS
+blocked_omp p=3: known 3x3 product                   PASS
+blocked_omp p=3: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=3: non-commuting 2x2                   PASS
+blocked_omp p=7: known 3x3 product                   PASS
+blocked_omp p=7: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=7: non-commuting 2x2                   PASS
+blocked_omp p=16: known 3x3 product                  PASS
+blocked_omp p=16: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp p=16: non-commuting 2x2                  PASS
+blocked_omp p=33: known 3x3 product                  PASS
+blocked_omp p=33: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp p=33: non-commuting 2x2                  PASS
+ikj_seq p=1: known 3x3 product                       PASS
+ikj_seq p=1: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_seq p=1: non-commuting 2x2                       PASS
+ikj_omp p=1: known 3x3 product                       PASS
+ikj_omp p=1: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=1: non-commuting 2x2                       PASS
+ikj_omp p=2: known 3x3 product                       PASS
+ikj_omp p=2: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=2: non-commuting 2x2                       PASS
+ikj_omp p=3: known 3x3 product                       PASS
+ikj_omp p=3: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=3: non-commuting 2x2                       PASS
+ikj_omp p=7: known 3x3 product                       PASS
+ikj_omp p=7: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=7: non-commuting 2x2                       PASS
+ikj_omp p=16: known 3x3 product                      PASS
+ikj_omp p=16: A * I == A, I * A == A, A * 0 == 0     PASS
+ikj_omp p=16: non-commuting 2x2                      PASS
+ikj_omp p=33: known 3x3 product                      PASS
+ikj_omp p=33: A * I == A, I * A == A, A * 0 == 0     PASS
+ikj_omp p=33: non-commuting 2x2                      PASS
+blocked_omp_nosimd p=1: known 3x3 product            PASS
+blocked_omp_nosimd p=1: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=1: non-commuting 2x2            PASS
+blocked_omp_nosimd p=2: known 3x3 product            PASS
+blocked_omp_nosimd p=2: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=2: non-commuting 2x2            PASS
+blocked_omp_nosimd p=3: known 3x3 product            PASS
+blocked_omp_nosimd p=3: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=3: non-commuting 2x2            PASS
+blocked_omp_nosimd p=7: known 3x3 product            PASS
+blocked_omp_nosimd p=7: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=7: non-commuting 2x2            PASS
+blocked_omp_nosimd p=16: known 3x3 product           PASS
+blocked_omp_nosimd p=16: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=16: non-commuting 2x2           PASS
+blocked_omp_nosimd p=33: known 3x3 product           PASS
+blocked_omp_nosimd p=33: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=33: non-commuting 2x2           PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=1        PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=7        PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=33       PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=100      PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=130      PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=257      PASS
+selftest PASSED
+
+== build avx2 (build\parallel_avx2.exe) ==
+blocked_seq p=1: known 3x3 product                   PASS
+blocked_seq p=1: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_seq p=1: non-commuting 2x2                   PASS
+blocked_omp p=1: known 3x3 product                   PASS
+blocked_omp p=1: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=1: non-commuting 2x2                   PASS
+blocked_omp p=2: known 3x3 product                   PASS
+blocked_omp p=2: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=2: non-commuting 2x2                   PASS
+blocked_omp p=3: known 3x3 product                   PASS
+blocked_omp p=3: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=3: non-commuting 2x2                   PASS
+blocked_omp p=7: known 3x3 product                   PASS
+blocked_omp p=7: A * I == A, I * A == A, A * 0 == 0  PASS
+blocked_omp p=7: non-commuting 2x2                   PASS
+blocked_omp p=16: known 3x3 product                  PASS
+blocked_omp p=16: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp p=16: non-commuting 2x2                  PASS
+blocked_omp p=33: known 3x3 product                  PASS
+blocked_omp p=33: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp p=33: non-commuting 2x2                  PASS
+ikj_seq p=1: known 3x3 product                       PASS
+ikj_seq p=1: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_seq p=1: non-commuting 2x2                       PASS
+ikj_omp p=1: known 3x3 product                       PASS
+ikj_omp p=1: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=1: non-commuting 2x2                       PASS
+ikj_omp p=2: known 3x3 product                       PASS
+ikj_omp p=2: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=2: non-commuting 2x2                       PASS
+ikj_omp p=3: known 3x3 product                       PASS
+ikj_omp p=3: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=3: non-commuting 2x2                       PASS
+ikj_omp p=7: known 3x3 product                       PASS
+ikj_omp p=7: A * I == A, I * A == A, A * 0 == 0      PASS
+ikj_omp p=7: non-commuting 2x2                       PASS
+ikj_omp p=16: known 3x3 product                      PASS
+ikj_omp p=16: A * I == A, I * A == A, A * 0 == 0     PASS
+ikj_omp p=16: non-commuting 2x2                      PASS
+ikj_omp p=33: known 3x3 product                      PASS
+ikj_omp p=33: A * I == A, I * A == A, A * 0 == 0     PASS
+ikj_omp p=33: non-commuting 2x2                      PASS
+blocked_omp_nosimd p=1: known 3x3 product            PASS
+blocked_omp_nosimd p=1: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=1: non-commuting 2x2            PASS
+blocked_omp_nosimd p=2: known 3x3 product            PASS
+blocked_omp_nosimd p=2: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=2: non-commuting 2x2            PASS
+blocked_omp_nosimd p=3: known 3x3 product            PASS
+blocked_omp_nosimd p=3: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=3: non-commuting 2x2            PASS
+blocked_omp_nosimd p=7: known 3x3 product            PASS
+blocked_omp_nosimd p=7: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=7: non-commuting 2x2            PASS
+blocked_omp_nosimd p=16: known 3x3 product           PASS
+blocked_omp_nosimd p=16: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=16: non-commuting 2x2           PASS
+blocked_omp_nosimd p=33: known 3x3 product           PASS
+blocked_omp_nosimd p=33: A * I == A, I * A == A, A * 0 == 0 PASS
+blocked_omp_nosimd p=33: non-commuting 2x2           PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=1        PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=7        PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=33       PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=100      PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=130      PASS
+all kernels, p in {1,2,3,7,16,33} == ijk, n=257      PASS
+selftest PASSED
+
+== topology ==
+physical_cores,8,logical_processors,16
+spread_order,0,2,4,6,8,10,12,14,1,3,5,7,9,11,13,15
+compact_order,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+openmp,202111,omp_num_procs,16,omp_max_threads,16
+

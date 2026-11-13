@@ -1,0 +1,6 @@
+method,n,threads,samples,pct_perf_active_lp,clock_active_lp_ghz,pct_perf_total,median_time_s,gflops
+blocked_omp,4096,1,28,173.4,3.47,164.9,13.690337,10.04
+blocked_omp,4096,2,13,193.3,3.87,193.5,8.4495543,16.27
+blocked_omp,4096,4,10,137.1,2.74,146.4,5.9788353,22.99
+blocked_omp,4096,8,7,114.2,2.28,120.3,4.1925019,32.78
+blocked_omp,4096,16,6,102,2.04,102.2,3.8990615,35.25

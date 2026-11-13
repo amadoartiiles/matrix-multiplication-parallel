@@ -1,0 +1,14 @@
+n,method,build,reference,max_abs_error,max_error_over_bound,within_tolerance,hash_c,equal_to
+256,blocked_seq,sse2,numpy dense A@B,2.665e-14,7.920e-03,True,2bf9f00220a6265e,ikj_seq
+256,ikj_seq,sse2,numpy dense A@B,2.665e-14,7.920e-03,True,2bf9f00220a6265e,blocked_seq
+512,blocked_seq,sse2,numpy dense A@B,7.461e-14,5.176e-03,True,2e34bbf6b48c02d2,ikj_seq
+512,ikj_seq,sse2,numpy dense A@B,7.461e-14,5.176e-03,True,2e34bbf6b48c02d2,blocked_seq
+1024,blocked_seq,sse2,numpy dense A@B,1.350e-13,2.454e-03,True,ca4df33c0bfdde88,ikj_seq
+1024,ikj_seq,sse2,numpy dense A@B,1.350e-13,2.454e-03,True,ca4df33c0bfdde88,blocked_seq
+2048,blocked_seq,sse2,numpy dense A@B,2.913e-13,1.247e-03,True,572b8fc38d61d8e9,ikj_seq
+2048,ikj_seq,sse2,numpy dense A@B,2.913e-13,1.247e-03,True,572b8fc38d61d8e9,blocked_seq
+3072,blocked_seq,sse2,numpy dense A@B,4.263e-13,8.107e-04,True,3d161b49a8eb9f5b,ikj_seq
+3072,ikj_seq,sse2,numpy dense A@B,4.263e-13,8.107e-04,True,3d161b49a8eb9f5b,blocked_seq
+4096,blocked_seq,sse2,numpy dense A@B,6.608e-13,7.258e-04,True,ce51bf83bc029e60,ikj_seq
+4096,ikj_seq,sse2,numpy dense A@B,6.608e-13,7.258e-04,True,ce51bf83bc029e60,blocked_seq
+6144,blocked_seq,sse2,numpy dense A@B,9.948e-13,4.707e-04,True,136d2b82a4bedf80,

@@ -1,0 +1,20 @@
+Loop vectorisation reported by GCC (-fopt-info-vec-optimized; basic-block
+vectorisation lines omitted); the kernel containing each loop is in brackets.
+A kernel that does not appear has a scalar inner loop.
+
+== build sse2: -O2 -std=c11 -Wall -Wextra -fopenmp ==
+c/parallel.c:131:44: optimized: loop vectorized using 16 byte vectors and unroll factor 2   [mm_blocked_seq]
+c/parallel.c:85:31: optimized: loop vectorized using 16 byte vectors and unroll factor 2   [mm_ikj_seq]
+c/parallel.c:164:35: optimized: loop vectorized using 16 byte vectors and unroll factor 2   [mm_blocked_omp]
+c/parallel.c:108:23: optimized: loop vectorized using 16 byte vectors and unroll factor 2   [mm_ikj_omp]
+
+== build novec: -O2 -std=c11 -Wall -Wextra -fopenmp -fno-tree-vectorize -DMM_NO_SIMD ==
+(no loop vectorised)
+
+== build avx2: -O2 -std=c11 -Wall -Wextra -fopenmp -mavx2 ==
+c/parallel.c:131:44: optimized: loop vectorized using 32 byte vectors and unroll factor 4   [mm_blocked_seq]
+c/parallel.c:85:31: optimized: loop vectorized using 32 byte vectors and unroll factor 4   [mm_ikj_seq]
+c/parallel.c:164:35: optimized: loop vectorized using 32 byte vectors and unroll factor 4   [mm_blocked_omp]
+c/parallel.c:164:35: optimized: epilogue loop vectorized using 16 byte vectors and unroll factor 2   [mm_blocked_omp]
+c/parallel.c:108:23: optimized: loop vectorized using 32 byte vectors and unroll factor 4   [mm_ikj_omp]
+c/parallel.c:108:23: optimized: epilogue loop vectorized using 16 byte vectors and unroll factor 2   [mm_ikj_omp]
